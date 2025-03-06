@@ -2,12 +2,11 @@ package main
 
 import (
 	"net/http"
-	"testing"
 )
 
 const portNumber = ":8080"
 
-func TestFunctionHandlerTemplate(t *testing.T) {
+func main() {
 	http.HandleFunc("/", HomeTemplate)
 	http.HandleFunc("/about", AboutTemplate)
 
