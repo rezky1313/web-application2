@@ -1,17 +1,19 @@
-package main
+package handlers
 
 import (
 	"net/http"
+
+	"github.com/rezky1313/web-application2/pkg/render"
 )
 
 //put all the handler function here
 
 // Home page Handler
 func HomeTemplate(w http.ResponseWriter, r *http.Request) {
-	renderTemplate(w, "homepage.tmpl")
+	render.RenderTemplate(w, "homepage.tmpl")
 }
 
 // About Page handler
 func AboutTemplate(w http.ResponseWriter, r *http.Request) {
-
+	render.RenderTemplate(w, "about.page.tmpl")
 }
