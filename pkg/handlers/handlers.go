@@ -10,7 +10,7 @@ import (
 
 // Home page Handler
 func HomeTemplate(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "homepage.tmpl")
+	render.RenderTemplate(w, "home.page.tmpl")
 }
 
 // About Page handler
