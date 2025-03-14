@@ -15,9 +15,15 @@ import (
 
 // creating more complex tempalte cache
 
+// setting aplication wide configuration
+// in section before we stil load all the template set when request has been made
+// now once i have tempalte set i never want to load it again until application restart
+// using app config
+
 func RenderTemplate(w http.ResponseWriter, tmpl string) {
 	// create a tempalte cache
-	tc, err := createTemplateCache()
+	// get the template cache from the app config 
+	tc, err := CreateTemplateCache()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -42,7 +48,7 @@ func RenderTemplate(w http.ResponseWriter, tmpl string) {
 
 }
 
-func createTemplateCache() (map[string]*template.Template, error) {
+func CreateTemplateCache() (map[string]*template.Template, error) {
 	myCache := map[string]*template.Template{}
 
 	// get all of the file named *.page.tmpl
