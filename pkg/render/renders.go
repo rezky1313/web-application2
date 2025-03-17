@@ -6,42 +6,51 @@ import (
 	"net/http"
 	"path/filepath"
 	"text/template"
+
+	"github.com/rezky1313/web-application2/pkg/config"
 )
-
-// put render function here
-
-// now when user acces the page the application render the file every single time
-// those are read from disk, so now we gonna make it render just once
-
-// creating more complex tempalte cache
 
 // setting aplication wide configuration
 // in section before we stil load all the template set when request has been made
 // now once i have tempalte set i never want to load it again until application restart
 // using app config
 
+var function = template.FuncMap{}
+
+var app *config.AppConfig
+
+// newtemplates sets the config for the tempalte package
+func NewTemplates(a *config.AppConfig) {
+	app = a
+}
+
 func RenderTemplate(w http.ResponseWriter, tmpl string) {
-	// create a tempalte cache
-	// get the template cache from the app config 
-	tc, err := CreateTemplateCache()
-	if err != nil {
-		log.Fatal(err)
+	//for development mode use the usecache for rebuild
+	// if not just tc := app.TemplateCache
+	var tc map[string]*template.Template
+	if app.UseCache {
+	// get the template cache from the app config
+
+	tc = app.TemplateCache
+	} else {
+		tc , _ = CreateTemplateCache()
 	}
+
 
 	// get requested tempalte from cache
 	t, ok := tc[tmpl]
 	if !ok {
-		log.Fatal(err)
+		log.Fatal("could not get tempalte from template cache")
 	}
 
 	buf := new(bytes.Buffer)
 
-	err = t.Execute(buf, nil)
-	if err != nil {
-		log.Println(err)
-	}
+	_ = t.Execute(buf, nil)
+
+	log.Println("get template from cache")
+
 	// render the template
-	_, err = buf.WriteTo(w)
+	_, err := buf.WriteTo(w)
 	if err != nil {
 		log.Println(err)
 	}

@@ -20,10 +20,20 @@ func main() {
 		log.Panicln("Cannot create tempalte cache")
 	}
 
-	app.TemplateCache = tc
+	log.Println("creating new template from main file")
 	
-	http.HandleFunc("/", handlers.HomeTemplate)
-	http.HandleFunc("/about", handlers.AboutTemplate)
+	app.TemplateCache = tc
+	app.UseCache = false
+
+	log.Println("put the new template that just created into the template cache")
+
+	repo:= handlers.NewRepo(&app)
+	handlers.NewHandlers(repo)
+	
+	render.NewTemplates(&app)
+
+	http.HandleFunc("/", handlers.Repo.HomeTemplate)
+	http.HandleFunc("/about", handlers.Repo.AboutTemplate)
 
 	fmt.Println("Starting application on port :8080")
 	_ = http.ListenAndServe(portNumber, nil)
