@@ -32,10 +32,20 @@ func main() {
 	
 	render.NewTemplates(&app)
 
-	http.HandleFunc("/", handlers.Repo.HomeTemplate)
-	http.HandleFunc("/about", handlers.Repo.AboutTemplate)
+	// http.HandleFunc("/", handlers.Repo.HomeTemplate)
+	// http.HandleFunc("/about", handlers.Repo.AboutTemplate)
 
 	fmt.Println("Starting application on port :8080")
-	_ = http.ListenAndServe(portNumber, nil)
+	// _ = http.ListenAndServe(portNumber, nil)
+
+	server := &http.Server {
+		Addr: portNumber,
+		Handler: routes(&app),
+	}
+
+	err = server.ListenAndServe()
+	if err != nil {
+		log.Fatal(http.StatusInternalServerError)
+	}
 
 }
