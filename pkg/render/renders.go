@@ -8,6 +8,7 @@ import (
 	"text/template"
 
 	"github.com/rezky1313/web-application2/pkg/config"
+	"github.com/rezky1313/web-application2/pkg/models"
 )
 
 // setting aplication wide configuration
@@ -24,18 +25,17 @@ func NewTemplates(a *config.AppConfig) {
 	app = a
 }
 
-func RenderTemplate(w http.ResponseWriter, tmpl string) {
+func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData) {
 	//for development mode use the usecache for rebuild
 	// if not just tc := app.TemplateCache
 	var tc map[string]*template.Template
 	if app.UseCache {
-	// get the template cache from the app config
+		// get the template cache from the app config
 
-	tc = app.TemplateCache
+		tc = app.TemplateCache
 	} else {
-		tc , _ = CreateTemplateCache()
+		tc, _ = CreateTemplateCache()
 	}
-
 
 	// get requested tempalte from cache
 	t, ok := tc[tmpl]
@@ -45,7 +45,7 @@ func RenderTemplate(w http.ResponseWriter, tmpl string) {
 
 	buf := new(bytes.Buffer)
 
-	_ = t.Execute(buf, nil)
+	_ = t.Execute(buf, td)
 
 	log.Println("get template from cache")
 
