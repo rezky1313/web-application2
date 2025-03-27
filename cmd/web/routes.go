@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 
+	"github.com/bmizerany/pat"
 	"github.com/rezky1313/web-application2/pkg/config"
 	"github.com/rezky1313/web-application2/pkg/handlers"
 )
@@ -14,10 +15,11 @@ wich i will call routes.go
 */
 
 func routes(app *config.AppConfig) http.Handler {
-	mux := http.NewServeMux()
+	mux := pat.New()
 
-	mux.HandleFunc("/", handlers.Repo.HomeTemplate)
-	mux.HandleFunc("/about", handlers.Repo.AboutTemplate)
+	mux.Get("/", http.HandlerFunc(handlers.Repo.HomeTemplate))
+	mux.Get("/about", http.HandlerFunc(handlers.Repo.AboutTemplate))
 
 	return mux
+
 }
