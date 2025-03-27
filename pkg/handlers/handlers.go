@@ -48,3 +48,5 @@ func (m *Repository) HomeTemplate(w http.ResponseWriter, r *http.Request) {
 func (m *Repository) AboutTemplate(w http.ResponseWriter, r *http.Request) {
 	render.RenderTemplate(w, "about.page.tmpl", &models.TemplateData{})
 }
+
+//https://chatgpt.com/share/67e5127c-af2c-8005-9c23-13e05ef6dd2b
