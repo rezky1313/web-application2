@@ -31,8 +31,8 @@ func routes(app *config.AppConfig) http.Handler {
 	//middleware taht write when panic
 	mux.Use(middleware.Recoverer)
 
-	//my own middleware
-	mux.Use(WritetoConsole)
+	//middleware using nosurf
+	mux.Use(NoSurf)
 
 	mux.Get("/", handlers.Repo.HomeTemplate)
 	mux.Get("/about", handlers.Repo.AboutTemplate)
